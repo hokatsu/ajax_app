@@ -1,4 +1,4 @@
-function memo() {
+function makeMemo() {
   const submit = document.getElementById("submit");
   submit.addEventListener("click", (e) => {
     const formData = new FormData(document.getElementById("form"));
@@ -28,4 +28,4 @@ function memo() {
     };
   });
 }
-window.addEventListener("load", memo);
+window.addEventListener("load", makeMemo);
