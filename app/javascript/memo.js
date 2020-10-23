@@ -1,6 +1,7 @@
-function makeMemo() {
+window.addEventListener("load", function() {
   const submit = document.getElementById("submit");
   submit.addEventListener("click", (e) => {
+    e.preventDefault();
     const form = document.getElementById("form")
     const formData = new FormData(form);
     const XHR = new XMLHttpRequest();
@@ -12,21 +13,23 @@ function makeMemo() {
         alert(`Error ${XHR.status}: ${XHR.statusText}`);
         return null;
       }
-      const item = XHR.response.post;
+      function buildHTML(XHR){
+        const item = XHR.response.post;
+        const html = `
+          <div class="post" data-id=${item.id}>
+            <div class="post-date">
+              投稿日時：${item.created_at}
+            </div>
+            <div class="post-content">
+              ${item.content}
+            </div>
+          </div>`;
+        return html
+      }
       const list = document.getElementById("list");
       const formText = document.getElementById("content");
-      const HTML = `
-        <div class="post" data-id=${item.id}>
-          <div class="post-date">
-            投稿日時：${item.created_at}
-          </div>
-          <div class="post-content">
-          ${item.content}
-          </div>
-        </div>`;
-      list.insertAdjacentHTML("afterend", HTML);
+      list.insertAdjacentHTML("afterend", buildHTML(XHR));
       formText.value = "";
     };
   });
-}
-window.addEventListener("load", makeMemo);
+})
